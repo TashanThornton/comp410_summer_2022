@@ -223,7 +223,6 @@ class ScanTests(unittest.TestCase):
     def test_sprint2_t4_xlsx(self):
         # Full path to the sample document.
         no_pii = 'files/Documents/Team 4 Documents/sprint2_team4_xlsx_no_pii.xlsx'
-
         # Fix seperator for windows (or other platforms).
         if os.sep != '/':
             no_pii = no_pii.replace('/', os.sep)
