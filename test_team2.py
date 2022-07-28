@@ -2,12 +2,11 @@ import unittest
 from team2_pii import find_us_phone_numbers
 from team2_pii import find_us_ssn
 from team2_pii import find_credit_card_number
-
 from team2_pii import find_us_email
 from team2_pii import find_us_twitter_handle
 from team2_pii import find_us_bank_account
 from team2_pii import find_us_address
-
+from team2_pii import find_dob
 
 class Team2TestCases(unittest.TestCase):
     def test_us_phone(self):
@@ -54,6 +53,27 @@ class Team2TestCases(unittest.TestCase):
 
         ccn = 'hello'
         self.assertFalse(find_credit_card_number(ccn))
+    
+    def test_dob(self):
+        # Test valid date of birth
+        dob = '12/12/2012'
+        self.assertTrue(find_dob(dob))
+
+        dob = '12-12-2012'
+        self.assertTrue(find_dob(dob))
+
+        dob = '4/4/04'
+        self.assertTrue(find_dob(dob))
+
+        dob = '4-4-04'
+        self.assertTrue(find_dob(dob))
+
+        # Test invalid date of birth
+        dob = '45/48/2052'
+        self.assertFalse(find_dob(dob))
+
+        dob = '2/29/1700' # 1700 was not a leap year
+        self.assertFalse(find_dob(dob))
 
     def test_us_email(self):
         # Test emails
