@@ -12,7 +12,11 @@ def find_us_phone_numbers(text):
 def find_us_ssn(text):
     match = re.search(r'(\d{3})-(\d{2})-(\d{4})', text)
     if match:
-        if match.groups() == ('000', '00', '0000'):
+        match_lst = match.groups()
+        first = match_lst[0]
+        second = match_lst[1]
+        third = match_lst[2]
+        if first == '000' or second == '00' or third == '0000':
             return False
         return True
     return False
