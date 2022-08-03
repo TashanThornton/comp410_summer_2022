@@ -50,6 +50,26 @@ def find_dob(text):
             return True
     return False
 
+def find_name(text):
+    exclude_lst = ['St', 'Dr', 'Street', 'Drive', 'Full', 'Name', 'Banking', 'Statement',
+                    'MyBank', 'Account', 'Number', 'Period', 'November', 'Balance', 'This',
+                    'The', 'document', 'contains', 'sample', 'PII', 'detect', 'twitter',
+                    'secret', 'this', 'but', 'Gender', 'Social', 'Security', 'Your', 'Address',
+                    'Terrace', 'West', 'Lane', 'Neque', 'Quis', 'Nulla', 'viverra', 'purus',
+                    'eros', 'vehicula', 'Suspendisse', 'ultrices', 'pacer', 'beep', 'ding', 'name',
+                    'hotmail', 'rutrum', 'aol', 'icloud', 'ante', 'Lorem', 'Esterdayyay', 'Ethay',
+                    'Ityay', 'stinks', ',ut']
+    pii_lst = []
+    no_pii_lst = []
+    for match in re.findall(r'([a-zA-Z\s\',-.]+[ ]?)', text):
+        if match == ' ' or match == '.' or match == '-' or match == ',':
+            continue
+        elif not any(e in match for e in exclude_lst):
+            pii_lst.append(match)
+        else:
+            no_pii_lst.append(match)
+    return [pii_lst, no_pii_lst]
+
 def find_us_twitter_handle(text):
     match = re.search(r'^[@](\w){1,15}$', text)
     if match:
