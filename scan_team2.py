@@ -10,9 +10,9 @@ from team2_pii import find_us_email
 
 file_list = scan_files()
 for f in file_list:
-    txt_list = get_file_text(f)
+    txt_lst = get_file_text(f)
 
-    for t in txt_list:
+    for t in txt_lst:
         ssn_found = find_us_ssn(t)
         ccn_found = find_credit_card_number(t)
         dob_found = find_dob(t)

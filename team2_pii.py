@@ -58,7 +58,7 @@ def find_name(text):
                     'Terrace', 'West', 'Lane', 'Neque', 'Quis', 'Nulla', 'viverra', 'purus',
                     'eros', 'vehicula', 'Suspendisse', 'ultrices', 'pacer', 'beep', 'ding', 'name',
                     'hotmail', 'rutrum', 'aol', 'icloud', 'ante', 'Lorem', 'Esterdayyay', 'Ethay',
-                    'Ityay', 'stinks', ',ut']
+                    'Ityay', 'stinks', ',ut', 'Pacer', 'after', 'single', 'over', 'start']
     pii_lst = []
     no_pii_lst = []
     for match in re.findall(r'([a-zA-Z\s\',-.]+[ ]?)', text):
@@ -92,4 +92,7 @@ def find_us_address(text):
     match = re.search(r'(\d{1,5}\s{1}[\w\s]*,\s{1}[\w\s-]*,\s{1}[A-Z]{2},\s{1}(\d{5}-\d{4}|\d{5}))', text)
     if match:
         return True
+    elif re.search(r'(\d{1,5}\s{1}[\w\s]*)', text):
+        if "20 meter" not in text and "30 seconds" not in text:
+            return True
     return False
