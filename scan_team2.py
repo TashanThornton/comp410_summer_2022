@@ -7,6 +7,7 @@ from team2_pii import find_us_phone_numbers
 from team2_pii import find_name
 from team2_pii import find_us_twitter_handle
 from team2_pii import find_us_email
+from team2_pii import find_us_bank_account
 
 file_list = scan_files()
 for f in file_list:
@@ -21,8 +22,9 @@ for f in file_list:
         twt_found = find_us_twitter_handle(t)
         email_found = find_us_email(t)
         names_lst = find_name(t)
-        
-        if ssn_found or ccn_found or dob_found or add_found or phone_found or twt_found or email_found:
+        bank_found = find_us_bank_account(t)
+
+        if ssn_found or ccn_found or dob_found or add_found or phone_found or twt_found or email_found or bank_found:
             print("PII: " + f + ": " + t)
         elif names_lst != [[], []]:
             for pii in names_lst[0]:
@@ -31,5 +33,5 @@ for f in file_list:
                 print("NO_PII: " + f + ": " + no_pii)
         else:
             print("NO_PII: " + f + ": " + t)
-    
+
     print()
