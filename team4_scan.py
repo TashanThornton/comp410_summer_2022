@@ -15,19 +15,23 @@ if __name__ == '__main__':
             continue
 
         file_has_pii = False
+        file_text_line_by_line = get_file_text(file)
+        pii_lines = []
 
         for func in test_funcs:
-            file_text_lines = get_file_text(file)
-            has_pii = func(str(file_text_lines))
+            has_pii = func(str(file_text_line_by_line))
             if has_pii:
                 file_has_pii = True
-                print('file at {0} has PII'.format(file))
-                for line in file_text_lines:
+                for line in file_text_line_by_line:
                     is_pii = func(line)
                     if is_pii:
-                        print(line)
-                print('---------------------------------------------')
+                        pii_lines.append(line)
 
-        if not file_has_pii:
+        if file_has_pii:
+            print('file at {0} has PII'.format(file))
+            for pii in pii_lines:
+                print(pii)
+            print('---------------------------------------------')
+        else:
             print('file at {0} does NOT have PII'.format(file))
             print('---------------------------------------------')
