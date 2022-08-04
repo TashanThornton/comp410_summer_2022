@@ -12,7 +12,10 @@ from team2_pii import find_us_bank_account
 file_list = scan_files()
 for f in file_list:
     txt_lst = get_file_text(f)
+    #print("file = " + f)
+    #print(txt_lst)
 
+    
     for t in txt_lst:
         ssn_found = find_us_ssn(t)
         ccn_found = find_credit_card_number(t)
@@ -21,8 +24,8 @@ for f in file_list:
         phone_found = find_us_phone_numbers(t)
         twt_found = find_us_twitter_handle(t)
         email_found = find_us_email(t)
-        names_lst = find_name(t)
         bank_found = find_us_bank_account(t)
+        names_lst = find_name(t)
 
         if ssn_found or ccn_found or dob_found or add_found or phone_found or twt_found or email_found or bank_found:
             print("PII: " + f + ": " + t)
@@ -33,5 +36,5 @@ for f in file_list:
                 print("NO_PII: " + f + ": " + no_pii)
         else:
             print("NO_PII: " + f + ": " + t)
-
+    
     print()

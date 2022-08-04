@@ -58,15 +58,24 @@ def find_name(text):
                     'Terrace', 'West', 'Lane', 'Neque', 'Quis', 'Nulla', 'viverra', 'purus',
                     'eros', 'vehicula', 'Suspendisse', 'ultrices', 'pacer', 'beep', 'ding', 'name',
                     'hotmail', 'rutrum', 'aol', 'icloud', 'ante', 'Lorem', 'Esterdayyay', 'Ethay',
-                    'Ityay', 'stinks', ',ut', 'Pacer', 'after', 'single', 'over', 'start']
+                    'Ityay', 'stinks', ',ut', 'Pacer', 'after', 'single', 'over', 'start',
+                    'Female', 'Male', 'June']
     pii_lst = []
     no_pii_lst = []
-    for match in re.findall(r'([a-zA-Z\s\',-.]+[ ]?)', text):
-        if match == ' ' or match == '.' or match == '-' or match == ',':
-            continue
-        elif not any(e in match for e in exclude_lst):
-            pii_lst.append(match)
-        else:
+    matches = re.findall(r'([a-zA-Z\s\',-.]+[ ]?)', text)
+    no_pii = re.findall(r'([\$]*[\d]+[\.]*[,]*[-]*[\d]*)', text)
+    #print("text = " + text)
+    #print("matches = " + str(matches))
+    if matches != []:
+        for match in matches:
+            if match == ' ' or match == '.' or match == '-' or match == ',':
+                continue
+            elif not any(e in match for e in exclude_lst):
+                pii_lst.append(match)
+            else:
+                no_pii_lst.append(match)
+    if no_pii != []:
+        for match in no_pii:
             no_pii_lst.append(match)
     return [pii_lst, no_pii_lst]
 
@@ -83,8 +92,9 @@ def find_us_email(text):
     return False
 
 def find_us_bank_account(text):
-    match = re.search(r'^(\d{8,12})$', text)
-    if match:
+    hyphen_match = re.search(r'(\d{4}-\d{5})', text)
+    no_hyphen_match = re.search(r'^(\d{8,12})$', text)
+    if hyphen_match or no_hyphen_match:
         return True
     return False
 
