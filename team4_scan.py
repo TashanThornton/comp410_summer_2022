@@ -8,8 +8,8 @@ if __name__ == '__main__':
 
     test_funcs = [find_us_phone_numbers, find_twitter_usernames, find_email_handle, find_credit_card_numbers, find_account_number]
 
-    for file_index, file in enumerate(glob.iglob('files/**/*', recursive=True)):
-        valid_file = re.search(r'.\.pdf$|.\.docx$|.\.xlsx$|.\.txt$', file)
+    for file in glob.iglob('files/**/*', recursive=True):
+        valid_file = re.search(r'.(\.pdf)$|.(\.docx)$|.(\.xlsx)$|.(\.txt)$', file)
 
         if not valid_file:
             continue
