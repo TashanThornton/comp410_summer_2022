@@ -12,10 +12,7 @@ from team2_pii import find_us_bank_account
 file_list = scan_files()
 for f in file_list:
     txt_lst = get_file_text(f)
-    #print("file = " + f)
-    #print(txt_lst)
 
-    
     for t in txt_lst:
         ssn_found = find_us_ssn(t)
         ccn_found = find_credit_card_number(t)

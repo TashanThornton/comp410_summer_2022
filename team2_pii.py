@@ -64,8 +64,6 @@ def find_name(text):
     no_pii_lst = []
     matches = re.findall(r'([a-zA-Z\s\',-.]+[ ]?)', text)
     no_pii = re.findall(r'([\$]*[\d]+[\.]*[,]*[-]*[\d]*)', text)
-    #print("text = " + text)
-    #print("matches = " + str(matches))
     if matches != []:
         for match in matches:
             if match == ' ' or match == '.' or match == '-' or match == ',':
@@ -102,7 +100,7 @@ def find_us_address(text):
     match = re.search(r'(\d{1,5}\s{1}[\w\s]*,\s{1}[\w\s-]*,\s{1}[A-Z]{2},\s{1}(\d{5}-\d{4}|\d{5}))', text)
     if match:
         return True
-    elif re.search(r'(\d{1,5}\s{1}[\w\s]*)', text):
+    elif re.search(r'(^\d{1,5}\s{1}[\w\s]*)', text):
         if "20 meter" not in text and "30 seconds" not in text:
             return True
     return False
