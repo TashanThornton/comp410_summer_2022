@@ -15,8 +15,15 @@ if __name__ == '__main__':
             continue
 
         for func in test_funcs:
-            has_pii = func(str(get_file_text(file)))
+            file_text_lines = get_file_text(file)
+            has_pii = func(str(file_text_lines))
             if has_pii:
                 print('file at {0} has PII'.format(file))
+                for line in file_text_lines:
+                    is_pii = func(line)
+                    if is_pii:
+                        print(line)
+                print('---------------------------------------------')
             else:
                 print('file at {0} does NOT contain PII'.format(file))
+                print('---------------------------------------------')
