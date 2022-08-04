@@ -75,33 +75,24 @@ class Team2TestCases(unittest.TestCase):
 
         dob = '2/29/1700' # 1700 was not a leap year
         self.assertFalse(find_dob(dob))
+
+        dob = 'SSN: 001-01-0001'
+        self.assertFalse(find_dob(dob))
     
     def test_name(self):
         # Test valid name
         name = 'Amy Johnson'
-        expected = [['Amy Johnson'], []]
-        self.assertEqual(find_name(name), expected)
+        self.assertEqual(find_name(name), ['Amy Johnson'])
 
-        name = 'Amy-Rae Johnson'
-        expected = [['Amy-Rae Johnson'], []]
-        self.assertEqual(find_name(name), expected)
-
-        name = 'Amy Tyler-Johnson'
-        expected = [['Amy Tyler-Johnson'], []]
-        self.assertEqual(find_name(name), expected)
-
-        name = 'anthony thomas, jr.'
-        expected = [['anthony thomas, jr.'], []]
-        self.assertEqual(find_name(name), expected)
+        name = 'Anthony Thomas'
+        self.assertEqual(find_name(name), ['Anthony Thomas'])
 
         # Test invalid name
         name = 'John W Mitchell Drive'
-        expected = [[], ['John W Mitchell Drive']]
-        self.assertEqual(find_name(name), expected)
+        self.assertEqual(find_name(name), [])
 
         name = 'Banking Statement'
-        expected = [[], ['Banking Statement']]
-        self.assertEqual(find_name(name), expected)
+        self.assertEqual(find_name(name), [])
 
     def test_us_email(self):
         # Test emails

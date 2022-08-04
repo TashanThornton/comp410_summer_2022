@@ -35,12 +35,15 @@ def is_leap_year(year):
     return False
 
 def find_dob(text):
-    match = re.search(r'(\d{1,2})[-|\/](\d{1,2})[-|\/]((\d{4})|(\d{2}))', text)
-    if match:
-        dob_lst = match.groups()
-        month = int(dob_lst[0])
-        day = int(dob_lst[1])
-        year = int(dob_lst[2])
+    match = re.findall(r'(\d{1,2})[-|\/](\d{1,2})[-|\/]((\d{4})|(\d{2}))', text)
+    if match != []:
+        if find_us_ssn(text):
+            return False
+        
+        tup = match[0]
+        month = int(tup[0])
+        day = int(tup[1])
+        year = int(tup[2])
 
         if (month < 1 or month > 12) or (day < 1 or day > 31):
             return False
@@ -51,31 +54,14 @@ def find_dob(text):
     return False
 
 def find_name(text):
-    exclude_lst = ['St', 'Dr', 'Street', 'Drive', 'Full', 'Name', 'Banking', 'Statement',
-                    'MyBank', 'Account', 'Number', 'Period', 'November', 'Balance', 'This',
-                    'The', 'document', 'contains', 'sample', 'PII', 'detect', 'twitter',
-                    'secret', 'this', 'but', 'Gender', 'Social', 'Security', 'Your', 'Address',
-                    'Terrace', 'West', 'Lane', 'Neque', 'Quis', 'Nulla', 'viverra', 'purus',
-                    'eros', 'vehicula', 'Suspendisse', 'ultrices', 'pacer', 'beep', 'ding', 'name',
-                    'hotmail', 'rutrum', 'aol', 'icloud', 'ante', 'Lorem', 'Esterdayyay', 'Ethay',
-                    'Ityay', 'stinks', ',ut', 'Pacer', 'after', 'single', 'over', 'start',
-                    'Female', 'Male', 'June']
+    exclude_lst = ['Street', 'Drive', 'Lane', 'Banking', 'Statement', 'First',
+                    'Last', 'Name', 'Social', 'Security', 'Test', 'Document',
+                    'Terrace', 'The', 'Punisher', 'Fitness', 'Pacer', 'Phone']
     pii_lst = []
-    no_pii_lst = []
-    matches = re.findall(r'([a-zA-Z\s\',-.]+[ ]?)', text)
-    no_pii = re.findall(r'([\$]*[\d]+[\.]*[,]*[-]*[\d]*)', text)
-    if matches != []:
-        for match in matches:
-            if match == ' ' or match == '.' or match == '-' or match == ',':
-                continue
-            elif not any(e in match for e in exclude_lst):
-                pii_lst.append(match)
-            else:
-                no_pii_lst.append(match)
-    if no_pii != []:
-        for match in no_pii:
-            no_pii_lst.append(match)
-    return [pii_lst, no_pii_lst]
+    for match in re.findall(r'([A-Z][a-z]+\s[A-Z][a-z]+)', text):
+        if not any (e in match for e in exclude_lst):
+            pii_lst.append(match)
+    return pii_lst
 
 def find_us_twitter_handle(text):
     match = re.search(r'\B@\w*([A-Za-z0-9_]+)\w*', text)
@@ -100,7 +86,4 @@ def find_us_address(text):
     match = re.search(r'(\d{1,5}\s{1}[\w\s]*,\s{1}[\w\s-]*,\s{1}[A-Z]{2},\s{1}(\d{5}-\d{4}|\d{5}))', text)
     if match:
         return True
-    elif re.search(r'(^\d{1,5}\s{1}[\w\s]*)', text):
-        if "20 meter" not in text and "30 seconds" not in text:
-            return True
     return False

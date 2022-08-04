@@ -26,11 +26,9 @@ for f in file_list:
 
         if ssn_found or ccn_found or dob_found or add_found or phone_found or twt_found or email_found or bank_found:
             print("PII: " + f + ": " + t)
-        elif names_lst != [[], []]:
-            for pii in names_lst[0]:
+        elif names_lst != []:
+            for pii in names_lst:
                 print("PII: " + f + ": " + pii)
-            for no_pii in names_lst[1]:
-                print("NO_PII: " + f + ": " + no_pii)
         else:
             print("NO_PII: " + f + ": " + t)
     
