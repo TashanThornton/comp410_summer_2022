@@ -109,8 +109,8 @@ class Team2TestCases(unittest.TestCase):
         # Test Twitter Handles
         twt = "@junine12"
         self.assertTrue(find_us_twitter_handle(twt))
+        
         # invalid test
-
         twt = "wenter"
         self.assertFalse(find_us_twitter_handle(twt))
 
