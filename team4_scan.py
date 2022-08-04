@@ -7,20 +7,16 @@ if __name__ == '__main__':
 
     for file in scan_files():
 
-        file_has_pii = False
         file_text_line_by_line = get_file_text(file)
         pii_lines = []
 
-        for func in test_funcs:
-            has_pii = func(str(file_text_line_by_line))
-            if has_pii:
-                file_has_pii = True
-                for line in file_text_line_by_line:
-                    is_pii = func(line)
-                    if is_pii:
-                        pii_lines.append(line)
+        for line in file_text_line_by_line:
+            for func in test_funcs:
+                is_pii = func(line)
+                if is_pii:
+                    pii_lines.append(line)
 
-        if file_has_pii:
+        if len(pii_lines) > 0:
             print('file at {0} has PII'.format(file))
             for pii in pii_lines:
                 print(pii)
