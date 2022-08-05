@@ -1,5 +1,6 @@
 import unittest
-from team1_pii import find_us_phone_numbers, find_us_street_address, find_twitter_handle, find_credit_card_number, find_bank_acc_number, find_email_address
+from team1_pii import find_us_social_security, find_us_phone_numbers, find_us_street_address, find_twitter_handle, \
+    find_credit_card_number, find_bank_acc_number, find_email_address, find_personal_names
 
 
 class Team1TestCases(unittest.TestCase):
@@ -9,6 +10,9 @@ class Team1TestCases(unittest.TestCase):
         self.assertTrue(find_us_phone_numbers(phone))
 
         phone = '336.555.1212'
+        self.assertTrue(find_us_phone_numbers(phone))
+
+        phone = '(336) 555-1212'
         self.assertTrue(find_us_phone_numbers(phone))
 
         # Test invalid
@@ -24,7 +28,7 @@ class Team1TestCases(unittest.TestCase):
         self.assertTrue(find_us_street_address(streetAddress))
 
         # Test invalid
-        streetAddress = 'My street address is 1234 Invalid Input Drive, Los Angeles, CA, 271'
+        streetAddress = 'My street address is 12 Invalid Input Drive'
         self.assertFalse(find_us_street_address(streetAddress))
 
     def test_credit_card_number(self):
@@ -38,7 +42,7 @@ class Team1TestCases(unittest.TestCase):
         cardNum = '6543 5678 9012 3456'
         self.assertTrue(find_credit_card_number(cardNum))
 
-        #Test invalid
+        # Test invalid
         cardNum = '123B4 5678 9012 3456'
         self.assertFalse(find_credit_card_number(cardNum))
 
@@ -56,7 +60,7 @@ class Team1TestCases(unittest.TestCase):
         userName = '@netflix'
         self.assertTrue(find_twitter_handle(userName))
 
-        #Test Invalid
+        # Test Invalid
 
         userName = 'my email is jon@smith.com'
         self.assertFalse(find_twitter_handle(userName))
@@ -85,8 +89,38 @@ class Team1TestCases(unittest.TestCase):
         self.assertTrue(find_email_address(email))
 
         # Invalid Test
-        email = '..nc12@email.com'
+        email = '@twitter'
         self.assertFalse(find_email_address(email))
+
+    def test_social_security(self):
+        # Test valid social security
+        ssn = '702-02-0202'
+        self.assertTrue(find_us_social_security(ssn))
+
+        ssn = 'This is a SSN: 123-12-1234'
+        self.assertTrue(find_us_social_security(ssn))
+
+        ssn = '111-09-3401'
+        self.assertTrue(find_us_social_security(ssn))
+
+        # Invalid Test
+        ssn = '09-09-0909'
+        self.assertFalse(find_us_social_security(ssn))
+
+        ssn = '000-09-0909'
+        self.assertFalse(find_us_social_security(ssn))
+
+    def test_personal_names(self):
+        # Test valid Name
+        name = 'Kaylin Burgess'
+        self.assertTrue(find_personal_names(name))
+
+        name = 'Name: John Smith'
+        self.assertTrue(find_personal_names(name))
+
+        # Test invalid names
+        name = "Banking Statement"
+        self.assertFalse(find_personal_names(name))
 
 
 if __name__ == '__main__':
