@@ -87,7 +87,10 @@ class Team4TestCases(unittest.TestCase):
         accountnumber = '12'
         self.assertFalse(find_account_number(accountnumber))
 
-        accountnumber = '0002547893124d'
+        accountnumber = '0002547893124' # 13 numbers
+        self.assertFalse(find_account_number(accountnumber))
+
+        accountnumber = '00025478931d' # 11 numbers with a letter
         self.assertFalse(find_account_number(accountnumber))
 
 
