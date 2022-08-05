@@ -5,7 +5,8 @@ import re
 # https://regex101.com/
 def find_us_phone_numbers(text):
     match = re.search(r'(\d{3}[-.]\d{3}[-.]\d{4})', text)
-    if match:
+    parenth_match = re.search(r'\(\d{3}\)\s\d{3}[- ]\d{4}', text)
+    if match or parenth_match:
         return True
     return False
 
@@ -22,8 +23,9 @@ def find_us_ssn(text):
     return False
 
 def find_credit_card_number(text):
-    match = re.search(r'([0-9]{4}[- ][0-9]{4,6}[- ][0-9]{4,5}[- ]?[0-9]{0,4})', text)
-    if match:
+    space_match = re.search(r'([0-9]{4}\s[0-9]{4,6}\s[0-9]{4,5}\s?[0-9]{0,4})', text)
+    dash_match = re.search(r'([0-9]{4}-[0-9]{4,6}-[0-9]{4,5}-?[0-9]{0,4})', text)
+    if space_match or dash_match:
         return True
     return False
 
@@ -56,7 +58,8 @@ def find_dob(text):
 def find_name(text):
     exclude_lst = ['Street', 'Drive', 'Lane', 'Banking', 'Statement', 'First',
                     'Last', 'Name', 'Social', 'Security', 'Test', 'Document',
-                    'Terrace', 'The', 'Punisher', 'Fitness', 'Pacer', 'Phone']
+                    'Terrace', 'The', 'Punisher', 'Fitness', 'Pacer', 'Phone',
+                    'Account', 'Number', 'Credit', 'Card']
     pii_lst = []
     for match in re.findall(r'([A-Z][a-z]+\s[A-Z][a-z]+)', text):
         if not any (e in match for e in exclude_lst):
