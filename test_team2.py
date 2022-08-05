@@ -2,12 +2,12 @@ import unittest
 from team2_pii import find_us_phone_numbers
 from team2_pii import find_us_ssn
 from team2_pii import find_credit_card_number
-
 from team2_pii import find_us_email
 from team2_pii import find_us_twitter_handle
 from team2_pii import find_us_bank_account
 from team2_pii import find_us_address
-
+from team2_pii import find_dob
+from team2_pii import find_name
 
 class Team2TestCases(unittest.TestCase):
     def test_us_phone(self):
@@ -54,6 +54,45 @@ class Team2TestCases(unittest.TestCase):
 
         ccn = 'hello'
         self.assertFalse(find_credit_card_number(ccn))
+    
+    def test_dob(self):
+        # Test valid date of birth
+        dob = '12/12/2012'
+        self.assertTrue(find_dob(dob))
+
+        dob = '12-12-2012'
+        self.assertTrue(find_dob(dob))
+
+        dob = '4/4/04'
+        self.assertTrue(find_dob(dob))
+
+        dob = '4-4-04'
+        self.assertTrue(find_dob(dob))
+
+        # Test invalid date of birth
+        dob = '45/48/2052'
+        self.assertFalse(find_dob(dob))
+
+        dob = '2/29/1700' # 1700 was not a leap year
+        self.assertFalse(find_dob(dob))
+
+        dob = 'SSN: 001-01-0001'
+        self.assertFalse(find_dob(dob))
+    
+    def test_name(self):
+        # Test valid name
+        name = 'Amy Johnson'
+        self.assertEqual(find_name(name), ['Amy Johnson'])
+
+        name = 'Anthony Thomas'
+        self.assertEqual(find_name(name), ['Anthony Thomas'])
+
+        # Test invalid name
+        name = 'John W Mitchell Drive'
+        self.assertEqual(find_name(name), [])
+
+        name = 'Banking Statement'
+        self.assertEqual(find_name(name), [])
 
     def test_us_email(self):
         # Test emails
@@ -70,8 +109,8 @@ class Team2TestCases(unittest.TestCase):
         # Test Twitter Handles
         twt = "@junine12"
         self.assertTrue(find_us_twitter_handle(twt))
+        
         # invalid test
-
         twt = "wenter"
         self.assertFalse(find_us_twitter_handle(twt))
 
